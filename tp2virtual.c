@@ -88,6 +88,16 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
         }
   }
 
+
+  //Inicializar estruturas de suporte (listas, pilhas, filas)
+  Lista *fifo = malloc(sizeof(Lista));
+  fifo->raiz = NULL;
+  fifo->ultimo = NULL;
+
+
+
+  //Processsamento do arquivo
+
   FILE* arquivo = fopen(nome_arquivo, "r");
   if (!arquivo) {
       printf("Erro ao abrir arquivo %s\n", nome_arquivo);
@@ -114,25 +124,40 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
         // Page fault
         page_faults++;
         page_fault_flag = 1;
-        // Acha endereco vago
+
+        // Procura endereco vago
         for (int i = 0; i < num_quadros; i++) {
           if (quadros[i].numero_pagina == 0 && quadros[i].modificado == 0) {
             num_quadro = i;
             tabela_paginas[num_pag].numero_quadro = i;
             tabela_paginas[num_pag].valido = 1;
             quadros[i].numero_pagina = num_pag;
+
+            adicionarFim(fifo, num_pag);
+
             break;
           }
         }
 
+        //Se necessário, faz reposição
         if (num_quadro == -1) {
-          // inserir algo de reposicao
-          unsigned long num_pag_troca = randomRep(quadros, num_quadros);
+          unsigned long num_pag_troca;
+          
+          if(algoritmo == RANDOM) {
+            num_pag_troca = randomRep(quadros, num_quadros);
+            
+          }
+
+          if(algoritmo == FIFO) {
+            num_pag_troca = fifoRep(num_pag, fifo);
+          }
+
           trocarPagDensa(num_pag, num_pag_troca, tabela_paginas, quadros);
+          
         }
       }
 
-      //Manipular pag
+      //Manipular pag dps da reposição
     }
     
     
