@@ -19,11 +19,10 @@ unsigned long fifoRep(unsigned long num_pag, Lista* fila) {
 }
 
 
-//unsigned long lruRep(unsigned long num_pag, Lista* pilha) {
-//    unsigned long num_pag_troca = pilha.pop();
-//    pilha.adicionar(num_pag);
-//    return num_pag_troca;
-//}
-//
-//
+unsigned long lruRep(unsigned long num_pag, Lista* fila) {
+    unsigned long num_pag_troca = removerInicio(fila)->pag;
+    adicionarFim(fila, num_pag);
+    return num_pag_troca;
+}
+
 //unsigned long SegChanceRep()

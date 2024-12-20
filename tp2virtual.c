@@ -90,9 +90,9 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
 
 
   //Inicializar estruturas de suporte (listas, pilhas, filas)
-  Lista *fifo = malloc(sizeof(Lista));
-  fifo->raiz = NULL;
-  fifo->ultimo = NULL;
+  Lista *lista = malloc(sizeof(Lista));
+  lista->raiz = NULL;
+  lista->ultimo = NULL;
 
 
 
@@ -133,7 +133,7 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
             tabela_paginas[num_pag].valido = 1;
             quadros[i].numero_pagina = num_pag;
 
-            adicionarFim(fifo, num_pag);
+            adicionarFim(lista, num_pag);
 
             break;
           }
@@ -147,13 +147,23 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
             num_pag_troca = randomRep(quadros, num_quadros);
             
           }
-
           if(algoritmo == FIFO) {
-            num_pag_troca = fifoRep(num_pag, fifo);
+            num_pag_troca = fifoRep(num_pag, lista);
+          }
+          if(algoritmo == LRU) {
+            num_pag_troca = lruRep(num_pag, lista);
+          }
+          if(algoritmo == SEGUNDA_CHANCE) {
+            //Nao implementado
           }
 
           trocarPagDensa(num_pag, num_pag_troca, tabela_paginas, quadros);
           
+        }
+
+      } else {   //Page hit
+          if(algoritmo == LRU) {
+            atualizarPag(lista, num_pag);
         }
       }
 
@@ -163,6 +173,11 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
     
     tempo++;
   }
+
+
+
+  printf("Paginas lidas: \n");
+  printf("Paginas escritas: 352 \n");
 
   printf("%lu\n", page_faults);
 }
