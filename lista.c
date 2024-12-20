@@ -1,9 +1,14 @@
+#ifndef LISTA_H
+#define LISTA_H
+
+
 #include <stdio.h>
+#include <stdlib.h>
 
 
-typedef struct {
-   unsigned long pag;
-   struct no *prox;
+typedef struct No {
+    unsigned long pag;
+    struct No *prox;
 } No;
 
 typedef struct {
@@ -31,3 +36,7 @@ No* removerInicio(Lista *lista) {
     lista->raiz = lista->raiz->prox;
     return aux;
 }
+
+
+
+#endif

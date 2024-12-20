@@ -13,7 +13,7 @@ unsigned long randomRep(Quadro* quadros, int num_quadros) {
 //Manipular as estruturas (fila e pilha) dentro ou fora das funções?
 
 unsigned long fifoRep(unsigned long num_pag, Lista* fila) {
-    unsigned long num_pag_troca = removerInicio(fila);
+    unsigned long num_pag_troca = removerInicio(fila)->pag;
     adicionarFim(fila, num_pag);
     return num_pag_troca;
 }

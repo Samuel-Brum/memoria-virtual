@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "memoria.c"
+//#include "memoria.c"
+#include "algsRepo.c"
+#include "trocaPag.c"
 
 typedef enum { LRU, SEGUNDA_CHANCE, FIFO, RANDOM } AlgoritmoSubstituicao;
 typedef enum { DENSA, DOIS_NIV, TRES_NIV, INVERTIDA } TipoTabelaPaginas;
@@ -121,14 +123,16 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
         }
 
         if (num_quadro == -1) {
-          continue; // inserir algo de reposicao
+          // inserir algo de reposicao
+          unsigned long num_pag_troca = randomRep(quadros, num_quadros);
+          trocarPagDensa(num_pag, num_pag_troca, tabela_paginas, quadros);
         }
       }
-    }
-    else {
-      // Page hit
 
+      //Manipular pag
     }
+    
+    
     tempo++;
   }
 }
