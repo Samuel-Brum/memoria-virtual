@@ -1,3 +1,6 @@
+#include "memoria.c"
+#include "lista.c"
+
 unsigned long randomRep(Quadro* quadros, int num_quadros) {
     
     //Adicionar srandom para trocar a seed

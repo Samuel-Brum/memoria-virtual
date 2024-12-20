@@ -1,21 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "memoria.c"
 
 typedef enum { LRU, SEGUNDA_CHANCE, FIFO, RANDOM } AlgoritmoSubstituicao;
 typedef enum { DENSA, DOIS_NIV, TRES_NIV, INVERTIDA } TipoTabelaPaginas;
 
-typedef struct {
-  unsigned long numero_pagina;
-  int numero_quadro;
-  int valido;
-  int modificado;
-} EntradaTabelaPagina;
-
-typedef struct {
-    unsigned long numero_pagina;
-    int modificado;
-} Quadro;
 
 AlgoritmoSubstituicao parse_algorithm(char* nome);
 TipoTabelaPaginas parse_page_table_type(char* name);
