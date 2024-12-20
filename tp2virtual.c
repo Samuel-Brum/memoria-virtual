@@ -118,6 +118,9 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
         for (int i = 0; i < num_quadros; i++) {
           if (quadros[i].numero_pagina == 0 && quadros[i].modificado == 0) {
             num_quadro = i;
+            tabela_paginas[num_pag].numero_quadro = i;
+            tabela_paginas[num_pag].valido = 1;
+            quadros[i].numero_pagina = num_pag;
             break;
           }
         }
@@ -135,4 +138,6 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
     
     tempo++;
   }
+
+  printf("%lu\n", page_faults);
 }
