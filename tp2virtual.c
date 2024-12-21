@@ -190,7 +190,7 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
     tempo++;
   }
 
-  printf("Paginas lidas: %d\n", paginas_lidas);
-  printf("Paginas escritas: %d\n", paginas_escritas);
+  // printf("Paginas lidas: %d\n", paginas_lidas); quebrado
+  // printf("Paginas escritas: %d\n", paginas_escritas); quebrado
   printf("Page Faults: %lu\n", page_faults);
 }
