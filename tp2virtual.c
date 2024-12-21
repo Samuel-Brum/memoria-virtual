@@ -22,8 +22,16 @@ int main(int argc, char* argv[]) {
     AlgoritmoSubstituicao algoritmo = parse_algorithm(argv[1]);
     TipoTabelaPaginas tipo_tabela_pags = parse_page_table_type(argv[2]);
     char* nome_arquivo = argv[3];
+    char* arq_print = strrchr(nome_arquivo, '/');
+    arq_print++;
     int tam_pag_kb = atoi(argv[4]);
     int tam_mem_kb = atoi(argv[5]);
+
+    printf("Executando o simulador...\n");
+    printf("Arquivo de entrada: %s\n", arq_print);
+    printf("Tamanho da memoria: %d\n", tam_mem_kb);
+    printf("Tamanho das paginas: %d\n", tam_pag_kb);
+    printf("Tecnica de reposicao: %s\n", argv[1]);
 
     simula(algoritmo, tipo_tabela_pags, nome_arquivo, tam_pag_kb, tam_mem_kb);
     return 0;
@@ -175,9 +183,7 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
   }
 
 
-
   printf("Paginas lidas: \n");
-  printf("Paginas escritas: 352 \n");
+  printf("Paginas escritas: \n");
 
-  printf("%lu\n", page_faults);
 }
