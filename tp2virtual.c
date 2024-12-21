@@ -171,10 +171,18 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
           if (algoritmo == LRU) {
             unsigned long num_pag_troca = lruRep(num_pag, lista);
             trocarPagDensa(num_pag, num_pag_troca, tabela_paginas, quadros);
+          } 
+          else if (algoritmo == SEGUNDA_CHANCE) {
+            unsigned long num_pag_troca = segundaChanceRep(lista, quadros, num_quadros);
+            trocarPagDensa(num_pag, num_pag_troca, tabela_paginas, quadros);  
           }
         }
       } 
       else {
+        if (op == 'R' || op == 'W') {
+        quadros[tabela_paginas[num_pag].numero_quadro].referencia = 1;
+        }
+        
         if(algoritmo == LRU) {
           atualizaLRU(lista, num_pag);
         }
@@ -190,7 +198,7 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
     tempo++;
   }
 
-  printf("Paginas lidas: %d\n", paginas_lidas);
-  printf("Paginas escritas: %d\n", paginas_escritas);
+  // printf("Paginas lidas: %d\n", paginas_lidas); quebrado
+  // printf("Paginas escritas: %d\n", paginas_escritas); quebrado
   printf("Page Faults: %lu\n", page_faults);
 }

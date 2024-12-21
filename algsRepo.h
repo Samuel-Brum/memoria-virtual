@@ -8,5 +8,6 @@ unsigned long randomRep(Quadro* quadros, int num_quadros);
 unsigned long fifoRep(unsigned long num_pag, Lista* fila);
 unsigned long lruRep(unsigned long num_pag, Lista* lru);
 void atualizaLRU(Lista* lru, unsigned long pag);
+unsigned long segundaChanceRep(Lista* scLista, Quadro* quadros, int num_quadros);
 
 #endif
