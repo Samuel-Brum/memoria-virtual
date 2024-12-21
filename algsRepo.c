@@ -1,5 +1,8 @@
-#include "memoria.c"
-#include "lista.c"
+#include <stdlib.h>
+
+#include "memoria.h"
+#include "lista.h"
+
 
 unsigned long randomRep(Quadro* quadros, int num_quadros) {
     
@@ -19,10 +22,21 @@ unsigned long fifoRep(unsigned long num_pag, Lista* fila) {
 }
 
 
-unsigned long lruRep(unsigned long num_pag, Lista* fila) {
-    unsigned long num_pag_troca = removerInicio(fila)->pag;
-    adicionarFim(fila, num_pag);
-    return num_pag_troca;
+unsigned long lruRep(unsigned long nova_pag, Lista* lru) {
+    No* removido = removerInicio(lru);
+    unsigned long pag_trocada = removido->pag;
+    free(removido);
+    adicionarFim(lru, nova_pag);
+    return pag_trocada;
 }
 
+void atualizaLRU(Lista* lru, unsigned long pag) {
+    No* removido = removerNo(lru, pag);
+    if (removido) {
+        free(removido);
+    }
+    adicionarFim(lru, pag);
+}
+//
+//
 //unsigned long SegChanceRep()

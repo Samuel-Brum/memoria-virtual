@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "memoria.c"
-#include "algsRepo.c"
-#include "trocaPag.c"
+
+#include "memoria.h"
+#include "lista.h"
+#include "algsRepo.h"
+#include "trocaPag.h"
 
 typedef enum { LRU, SEGUNDA_CHANCE, FIFO, RANDOM } AlgoritmoSubstituicao;
 typedef enum { DENSA, DOIS_NIV, TRES_NIV, INVERTIDA } TipoTabelaPaginas;
@@ -23,12 +25,12 @@ int main(int argc, char* argv[]) {
     TipoTabelaPaginas tipo_tabela_pags = parse_page_table_type(argv[2]);
     char* nome_arquivo = argv[3];
     char* arq_print = strrchr(nome_arquivo, '/');
-    arq_print++;
+    arq_print++;  
     int tam_pag_kb = atoi(argv[4]);
     int tam_mem_kb = atoi(argv[5]);
 
     printf("Executando o simulador...\n");
-    printf("Arquivo de entrada: %s\n", arq_print);
+    //printf("Arquivo de entrada: %s\n", arq_print);
     printf("Tamanho da memoria: %d\n", tam_mem_kb);
     printf("Tamanho das paginas: %d\n", tam_pag_kb);
     printf("Tecnica de reposicao: %s\n", argv[1]);
@@ -97,14 +99,13 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
   }
 
 
-  //Inicializar estruturas de suporte (listas, pilhas, filas)
+  // Inicializar estruturas de suporte (listas, pilhas, filas)
   Lista *lista = malloc(sizeof(Lista));
   lista->raiz = NULL;
   lista->ultimo = NULL;
 
 
-
-  //Processsamento do arquivo
+  // Processsamento do arquivo
 
   FILE* arquivo = fopen(nome_arquivo, "r");
   if (!arquivo) {
@@ -153,37 +154,43 @@ void simula(AlgoritmoSubstituicao algoritmo, TipoTabelaPaginas tipo_tabela_pags,
           
           if(algoritmo == RANDOM) {
             num_pag_troca = randomRep(quadros, num_quadros);
-            
           }
+
           if(algoritmo == FIFO) {
             num_pag_troca = fifoRep(num_pag, lista);
           }
+
           if(algoritmo == LRU) {
-            num_pag_troca = lruRep(num_pag, lista);
-          }
-          if(algoritmo == SEGUNDA_CHANCE) {
-            //Nao implementado
+            adicionarFim(lista, num_pag);
           }
 
           trocarPagDensa(num_pag, num_pag_troca, tabela_paginas, quadros);
           
+        } 
+        else {
+          if (algoritmo == LRU) {
+            unsigned long num_pag_troca = lruRep(num_pag, lista);
+            trocarPagDensa(num_pag, num_pag_troca, tabela_paginas, quadros);
+          }
         }
-
-      } else {   //Page hit
-          if(algoritmo == LRU) {
-            atualizarPag(lista, num_pag);
+      } 
+      else {
+        if(algoritmo == LRU) {
+          atualizaLRU(lista, num_pag);
         }
       }
 
       //Manipular pag dps da reposição
-    }
-    
+      if(op == 'W') {
+        quadros[tabela_paginas[num_pag].numero_quadro].modificado = 1;
+        paginas_escritas++;
+      }
+    }  
     
     tempo++;
   }
 
-
-  printf("Paginas lidas: \n");
-  printf("Paginas escritas: \n");
-
+  printf("Paginas lidas: %d\n", paginas_lidas);
+  printf("Paginas escritas: %d\n", paginas_escritas);
+  printf("Page Faults: %lu\n", page_faults);
 }

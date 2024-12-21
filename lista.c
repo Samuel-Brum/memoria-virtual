@@ -37,62 +37,24 @@ No* removerInicio(Lista *lista) {
     return aux;
 }
 
-//void atualizarPag(Lista *lista, unsigned long pag) {
-//    No* atual = malloc(sizeof(No));
-//
-//    if(lista->raiz->pag == pag) {
-//        atual = lista->raiz;
-//        lista->raiz = lista->raiz->prox;
-//
-//        adicionarFim(lista, pag);
-//    }
-//    else {
-//        atual = lista->raiz;
-//        while(atual->prox->pag != pag) {
-//            atual = atual->prox;
-//        }
-//        atual->prox = atual->prox->prox;
-//        
-//        adicionarFim(lista, pag);
-//    }
-//}
-
-
-void atualizarPag(Lista *lista, unsigned long pag) {
-    // Verificar se a lista está vazia
-    if (lista->raiz == NULL) {
-        fprintf(stderr, "Erro: A lista está vazia.\n");
-        return;
-    }
-
-    // Caso especial: a página já está na raiz
-    if (lista->raiz->pag == pag) {
-        No *atual = lista->raiz;
-        lista->raiz = lista->raiz->prox;
-        adicionarFim(lista, pag);
-        free(atual); // Liberar o nó removido
-        return;
-    }
-
-    // Percorrer a lista para encontrar a página
+No* removerNo(Lista *lista, unsigned long pag) {
+    No *ant = NULL;
     No *atual = lista->raiz;
-    while (atual->prox != NULL && atual->prox->pag != pag) {
+    while (atual && atual->pag != pag) {
+        ant = atual;
         atual = atual->prox;
     }
-
-    // Verificar se a página foi encontrada
-    if (atual->prox == NULL) {
-        fprintf(stderr, "Erro: Página %lu não encontrada na lista.\n", pag);
-        return;
+    if (!atual) return NULL;
+    if (!ant) {
+        lista->raiz = atual->prox;
+    } else {
+        ant->prox = atual->prox;
     }
-
-    // Atualizar a lista
-    No *remover = atual->prox;
-    atual->prox = remover->prox;
-    adicionarFim(lista, pag);
-    free(remover); // Liberar o nó removido
+    if (lista->ultimo == atual) {
+        lista->ultimo = ant;
+    }
+    return atual;
 }
-
 
 
 

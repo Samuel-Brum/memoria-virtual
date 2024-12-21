@@ -1,4 +1,4 @@
-#include "memoria.c"
+#include "memoria.h"
 
 void trocarPagDensa(unsigned long num_pag, int num_pag_troca, EntradaTabelaPagina* tabela_paginas, Quadro* quadros) {
     int num_quadro_troca = tabela_paginas[num_pag_troca].numero_quadro;
